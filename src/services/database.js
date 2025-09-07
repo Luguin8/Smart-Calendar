@@ -6,11 +6,48 @@ import Dexie from "dexie";
 // Instancia de la db
 const db = new Dexie("SmartCalendarDB");
 
-//Tablas e indices, primary key siempre ++id, adicionales separados por coma
-db.version(1).stores({
-    events: "++id, date, type, priority",
-    // id clave primaria, date fecha evento, type tipo, priority prioridad 1-3
-})
+//Tablas e indices
+db.version(2).stores({
+    events: `
+      ++id,
+      name,
+      startTime,
+      endTime,
+      type,
+      priority,
+      isCompleted,
+      timeRange,
+      duration,
+      actualDuration,
+      notes,
+      url,
+      iconPath
+      `,
+      weekTemplates: '++id, dayOfWeek, events',
+      settings: '++id, key, value'
+});
+
+//enum para tipos 
+export const EventType = {
+  FIXED: 'FIXED',
+  DYNAMIC: 'DYNAMIC',
+  FLEXIBLE: 'FLEXIBLE'
+};
+
+//enum para prioridades
+export const Priority = {
+  HIGH: 1,
+  MEDIUM: 2,
+  LOW: 3,
+};
+
+//migracion v1 a v2 db
+db.version(2).upgrade(tx => {
+  return tx.table('events').toCollection().modify(event => {
+    event.type = event.type || 'FIXED';
+    event.priority = event.priority || 2; //medium
+  });
+});
 
 // Ejemplo de datos iniciales (TEST)
 async function seedData() {

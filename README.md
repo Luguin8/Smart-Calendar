@@ -41,7 +41,6 @@ npm install
 npm run dev
 Abrir http://localhost:5173 en el navegador.
 
-
 📝 Notas
 
 Proyecto en fase inicial, muchas funcionalidades pendientes.

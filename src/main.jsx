@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
+// import "./test.js"; //este funciona, en la consola del navegador
 
 // Importar la fuente Roboto que usara Material-UI
 import '@fontsource/roboto/300.css'
